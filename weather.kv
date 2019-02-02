@@ -180,43 +180,33 @@ WeatherRoot:
     date: ""
     conditions_image: ""
     conditions: ""
-    temp_min: None
-    temp_max: None
+    temp: None
     pressure: None
     humidity: None
     wind_speed: None
     wind_directon: None
     canvas.before:
         Color:
-            rgb: [0.2, 0.2, 0.2]
+            rgb: [0.3, 0.3, 0.3]
         Line:
             points: [self.pos[0], self.pos[1], self.width, self.pos[1]]
-    Label:
-        text: root.date
     BoxLayout:
-        orientation: "vertical"
+        orientation: "horizontal"
+        Label:
+            text: root.date
+        Label:
+            text: "{}°".format(root.temp)
+            font_size: "20dp"
         AsyncImage:
             source: root.conditions_image
         Label:
             text: root.conditions
-    BoxLayout:
-        orientation: "vertical"
         Label:
-            text: "Low: {}".format(root.temp_min)
+            text: "{}hPa".format(root.pressure)
         Label:
-            text: "High: {}".format(root.temp_max)
-    BoxLayout:
-        orientation: "vertical"
+            text: "{}%".format(root.humidity)
         Label:
-            text: "P: {}".format(root.pressure)
-        Label:
-            text: "H: {}".format(root.humidity)
-    BoxLayout:
-        orientation: "vertical"
-        Label:
-            text: "S: {}".format(root.wind_speed)
-        Label:
-            text: "D: {}".format(root.wind_directon)   
+            text: "{} / {}m".format(root.wind_directon, root.wind_speed)   
 
 <Forecast>:
     forecast_container: forecast_container
@@ -225,6 +215,28 @@ WeatherRoot:
         size_hint_y: 0.1
         font_size: "30dp"
         text: "{} ({})".format(root.location[0], root.location[1])
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint_y: 0.1
+        canvas.before:
+            Color:
+                rgb: [0.3, 0.3, 0.3]
+            Line:
+                points: [self.pos[0], self.pos[1], self.width, self.pos[1]]
+        Label:
+            text: "Date/Time"
+        Label:
+            text: "Temp"
+        Label:
+            text: "Conditons"
+        Label:
+            text: ""
+        Label:
+            text: "Pressure"
+        Label:
+            text: "Humidity"
+        Label:
+            text: "Wind"     
     BoxLayout:
         orientation: "vertical"
         id: forecast_container

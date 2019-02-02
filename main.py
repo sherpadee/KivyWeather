@@ -100,7 +100,7 @@ class Forecast(BoxLayout):
     def update_weather(self):
         config = WeatherApp.get_running_app().config
         temp_type = config.getdefault("General", "temp_type", "metric").lower()
-        weather_template = weatherAPI("forecast?q={},{}&units={}&cnt=3")
+        weather_template = weatherAPI("forecast?q={},{}&units={}&cnt=5")
         weather_url = weather_template.format(self.location[0], self.location[1], temp_type)
         request = UrlRequest(weather_url, self.weather_retrieved)
 
@@ -112,11 +112,10 @@ class Forecast(BoxLayout):
         for day in data['list']:
             label = Factory.ForecastLabel()
             utc = datetime.datetime.fromtimestamp(day['dt']).replace(tzinfo=from_zone).astimezone(to_zone)
-            label.date = utc.strftime("%a %d. %b ") 
+            label.date = utc.strftime("%a %d. %H:%M") 
             label.conditions = day['weather'][0]['description']
             label.conditions_image = weatherIMG("{}.png").format(day['weather'][0]['icon'])
-            label.temp_min = day['main']['temp_min']
-            label.temp_max = day['main']['temp_max']
+            label.temp = day['main']['temp']
             label.pressure = day['main']['pressure']
             label.humidity = day['main']['humidity']
             label.wind_speed = day['wind']['speed']
